@@ -1,9 +1,14 @@
 package main
 
 import (
-	//	"flag"
+  "flag"
 	"fmt"
+//  "os"
 )
+
+func init() {
+  var add = flag.NewFlagSet("add", flag.ExitOnError)
+}
 
 func logo() {
 	fmt.Println(" ,                  ")
@@ -16,4 +21,5 @@ func logo() {
 
 func main() {
 	logo()
+ // init()
 }
