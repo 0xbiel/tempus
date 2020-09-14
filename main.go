@@ -1,14 +1,9 @@
 package main
 
 import (
-  "flag"
 	"fmt"
-//  "os"
+  "os"
 )
-
-func init() {
-  var add = flag.NewFlagSet("add", flag.ExitOnError)
-}
 
 func logo() {
 	fmt.Println(" ,                  ")
@@ -16,10 +11,23 @@ func logo() {
 	fmt.Println(" | (/,[ | )[_)(_|_) ")
 	fmt.Println("           |        ")
 
-	fmt.Println("		~0xbiel")
+	fmt.Println("		~0xbiel\n")
+}
+
+func help() {
+  logo()
+  fmt.Println("[-a] add new entry.\n")
+  fmt.Println("[-i] init time.\n")
+  fmt.Println("[-s] stop time.\n")
+  fmt.Println("[-r] remove entry.\n")
+  fmt.Println("[-l] list entries.\n")
+  fmt.Println("[-e] export activity.\n")
+  fmt.Println("[-h] show help.\n")
 }
 
 func main() {
-	logo()
- // init()
+  if (len(os.Args) < 2) {
+    help() 
+  }
 }
+
