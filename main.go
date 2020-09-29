@@ -21,22 +21,16 @@ func logo() {
 
 func help() {
   logo()
-  fmt.Println("Usage: tempus [args]\n")
+  fmt.Println("Usage: tempus [args]\n\n")
 
-  fmt.Println("CLI:")
-  fmt.Println("----\n")
+  fmt.Println("[-a] - add new entry.\n")
+  fmt.Println("[-i] - init time.\n")
+  fmt.Println("[-s] - stop time.\n")
+  fmt.Println("[-r] - remove entry.\n")
+  fmt.Println("[-l] - list entries.\n")
+  fmt.Println("[-e] - export activity.\n")
+  fmt.Println("[-h] - show help.\n")
 
-  fmt.Println("   [-h] - show help.\n")
-
-  fmt.Println("TUI:")
-  fmt.Println("----\n")
-
-  fmt.Println("   [a] - add new entry.\n")
-  fmt.Println("   [i] - init time.\n")
-  fmt.Println("   [s] - stop time.\n")
-  fmt.Println("   [r] - remove entry.\n")
-  fmt.Println("   [l] - list entries.\n")
-  fmt.Println("   [e] - export activity.\n")
 }
 
 func main() {
@@ -44,13 +38,25 @@ func main() {
 
     tui.Start(); 
 
-  } else if (os.Args[1] != "-h") {
+  } else {
 
-      fmt.Println("argument not recognized.")
-
-    } else {
-
-      help()
-
-    }
+      switch os.Args[1] {
+        case "-a": 
+          fmt.Println("add")
+        case "-i":
+          fmt.Println("init")
+        case "-s":
+          fmt.Println("stop")
+        case "-r":
+          fmt.Println("remove")
+        case "-l":
+          fmt.Println("list")
+        case "-e":
+          fmt.Println("export")
+        case "-h":
+          help()
+        default:
+          tui.Start()
+      }
+	}
 }
