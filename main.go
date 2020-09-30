@@ -1,7 +1,8 @@
 package main
 
 import (
-//  add "./add"
+  i "./init"
+  add "./add"
 	"fmt"
   "os"
   tui "./tui"
@@ -42,9 +43,9 @@ func main() {
 
       switch os.Args[1] {
         case "-a": 
-          fmt.Println("add")
+          add.Smile()
         case "-i":
-          fmt.Println("init")
+          i.Smile()
         case "-s":
           fmt.Println("stop")
         case "-r":
