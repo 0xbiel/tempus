@@ -1,46 +1,40 @@
 package tui
 
 import (
+  "fmt"
   "log"
-  ui "github.com/gizak/termui/v3"
-  "github.com/gizak/termui/v3/widgets"
+  "github.com/jroimartin/gocui"
 )
 
 func Start() {
-  if err := ui.Init(); err != nil {
-    log.Fatalf("failed to initialize termui: %v", err) 
-  } 
-  defer ui.Close()
+	g, err := gocui.NewGui(gocui.OutputNormal)
+	if err != nil {
+		log.Panicln(err)
+	}
+	defer g.Close()
 
-  p := widgets.NewParagraph()
-	p.Title = "Tempus"
-	p.Text = "by 0xbiel."
-	p.SetRect(0, 0, 15, 3)
+	g.SetManagerFunc(layout)
 
-	listData := []string{
-		"Studying",
-		"Working",
-		"Hacking",
-		"Programming",
-		"Reading",
-		"Writing",
+	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
+		log.Panicln(err)
 	}
 
-	l := widgets.NewList()
-  l.Title = "Tasks"
-  l.Rows = listData
-  l.SetRect(0, 3, 25, 13)
+	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
+		log.Panicln(err)
+	}
+}
 
-  p2 := widgets.NewParagraph()
-  p2.Title = "Active Task"
-  p2.Text = "Programming"
-  p2.SetRect(0, 13, 25, 17)
-
-  ui.Render(p, l, p2)
-
-  for e := range ui.PollEvents() {
-		if e.Type == ui.KeyboardEvent {
-			break
+func layout(g *gocui.Gui) error {
+	maxX, maxY := g.Size()
+	if v, err := g.SetView("hello", maxX/2-7, maxY/2, maxX/2+7, maxY/2+2); err != nil {
+		if err != gocui.ErrUnknownView {
+			return err
 		}
+		fmt.Fprintln(v, "Hello world!")
 	}
+	return nil
+}
+
+func quit(g *gocui.Gui, v *gocui.View) error {
+	return gocui.ErrQuit
 }

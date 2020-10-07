@@ -36,7 +36,7 @@ func help() {
   fmt.Println("   [s] - stop time.")
   fmt.Println("   [r] - remove entry.")
   fmt.Println("   [l] - list entries.")
-  fmt.Println("   [e] - export activity.")
+  fmt.Println("   [e] - export activity.\n")
 }
 
 func main() {
