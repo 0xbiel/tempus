@@ -1,7 +1,7 @@
 package tui
 
 import (
-  "fmt"
+//  "fmt"
   "log"
   "github.com/jroimartin/gocui"
 )
@@ -13,7 +13,7 @@ func Start() {
 	}
 	defer g.Close()
 
-	g.SetManagerFunc(layout)
+	g.SetManagerFunc(layout) //set layout manager that is the layout function.
 
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
 		log.Panicln(err)
@@ -26,13 +26,24 @@ func Start() {
 
 func layout(g *gocui.Gui) error {
 	maxX, maxY := g.Size()
-	if v, err := g.SetView("hello", maxX/2-7, maxY/2, maxX/2+7, maxY/2+2); err != nil {
-		if err != gocui.ErrUnknownView {
-			return err
-		}
-		fmt.Fprintln(v, "Hello world!")
+
+  mainView, err := g.SetView("Main", 0, 0, maxX, maxY - 4)
+
+  if (err != nil && err != gocui.ErrUnknownView) {
+		log.Println("Failed to create main view:", err)
+		return
 	}
-	return nil
+
+  mainView.Title = "Main"
+  mainView.FgColor = gocui.ColorWhite
+
+  v, _ := g.SetCurrentView(mainView)
+  //cursorUp(g, v)
+
+ // err = g.MainLoop()
+	log.Println("Main loop has finished:", err)
+
+    //return
 }
 
 func quit(g *gocui.Gui, v *gocui.View) error {
